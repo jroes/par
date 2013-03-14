@@ -60,6 +60,6 @@ $ par "scp backup.dump jroes@%line:backups/" < ~/.backup_servers
 Running with 8 workers
 [scp backup.dump jroes@jroes.net:backups/] starting
 [scp backup.dump jroes@jroes.net:backups/] finished
-[scp backup.dump jroes@backup.myco.com:] starting
-[scp backup.dump jroes@backup.myco.com:] finished
+[scp backup.dump jroes@backup.myco.com:backups/] starting
+[scp backup.dump jroes@backup.myco.com:backups/] finished
 ```
