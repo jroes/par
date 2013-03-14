@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Par by jroes</title>
+  </head>
+
+  <body>
+    <a id="forkme_banner" href="https://github.com/jroes/par">View on GitHub</a>
+    <div class="shell">
+
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Par</h1>
+            <h2>Run a command on multiple inputs concurrently, and collect the output</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
+
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/jroes/par/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/jroes/par/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
+
+
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
+        <h1>What is Par?</h1>
+
+<p>Have you ever want to run a bunch of related processes at once, and maybe even collect their output? If so, this little thing is for you. Par spins up a fleet of goroutines and runs a command template you specify against standard input. It's best suited for tasks where you would expect concurrency to help you out -- things where network timeouts are possible and can slow your processing time down to a crawl.</p>
+
+<h1>Installation</h1>
+
+<h2>On OS X:</h2>
+
+<pre lang="shell"><code>$ brew install go
+$ echo PATH=$PATH:`brew --prefix go`/bin &gt;&gt; ~/.bash_profile &amp;&amp; source ~/.bash_profile
+$ go get github.com/jroes/par
+</code></pre>
+
+<h1>Examples</h1>
+
+<h2>Webscaling your family</h2>
+
+<pre lang="shell"><code>$ cat family.txt
+Jon
+Mai
+Kelly
+Tommy
+$ par "echo hello %line" &lt; family.txt
+Running with 8 workers
+[echo hello Mai] starting
+[echo hello Mai] hello Mai
+[echo hello Mai] finished
+[echo hello Kelly] starting
+[echo hello Kelly] hello Kelly
+[echo hello Kelly] finished
+[echo hello Jon] starting
+[echo hello Jon] hello Jon
+[echo hello Jon] finished
+[echo hello Tommy] starting
+[echo hello Tommy] hello Tommy
+[echo hello Tommy] finished
+</code></pre>
+
+<h2>Find the IP address of every dictionary word .com domain</h2>
+
+<pre lang="shell"><code>$ par "dig +short %line.com" &lt; /usr/share/dict/words
+Running with 8 workers
+[dig +short aardvark.com] starting
+[dig +short aardvark.com] 67.210.123.5
+[dig +short aardvark.com] finished
+[dig +short Aaronic.com] starting
+[dig +short Aaronic.com] 67.15.74.21
+[dig +short Aaronic.com] finished
+[dig +short Aaronite.com] starting
+[dig +short Aaronite.com] 82.165.125.59
+[dig +short Aaronite.com] finished
+</code></pre>
+
+<h2>Mirroring a backup to a bunch of geographically dispersed servers</h2>
+
+<pre lang="shell"><code>$ par "scp backup.dump jroes@%line:backups/" &lt; ~/.backup_servers
+Running with 8 workers
+[scp backup.dump jroes@jroes.net:backups/] starting
+[scp backup.dump jroes@jroes.net:backups/] finished
+[scp backup.dump jroes@backup.myco.com:] starting
+[scp backup.dump jroes@backup.myco.com:] finished
+</code></pre>
+      </section>
+
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/jroes">jroes</a> can be found on <a href="https://github.com/jroes/par">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
