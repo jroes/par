@@ -1,13 +1,3 @@
-// TODO:
-//  - flag: proc timeout
-//  - flag: output to separate files (named with a pattern or based on line ran)
-//  - flag: output to a single file
-//  - flag: number of workers
-//  - flag: include/exclude stderr
-//  - flag: crash/bypass on error
-//  - flag: buffered/unbuffered output
-//  - tests :(
-
 package main
 
 import (
