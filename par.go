@@ -75,7 +75,11 @@ func work(wg *sync.WaitGroup, template string, lines <-chan string) {
 		split_command := strings.Split(command, " ")
 		cmd := exec.Command(split_command[0], split_command[1:]...)
 		stdout, err := cmd.StdoutPipe()
-		if err != nil { // error getting output, no need to crash the whole app
+		if err != nil { // error getting stdout, no need to crash the whole app
+			log.Println(err)
+		}
+		stderr, err := cmd.StderrPipe()
+		if err != nil { // error getting stderr, no need to crash the whole app
 			log.Println(err)
 		}
 		if err := cmd.Start(); err != nil {
@@ -83,6 +87,7 @@ func work(wg *sync.WaitGroup, template string, lines <-chan string) {
 			continue
 		}
 
+		// TODO: DRY this up.
 		reader := bufio.NewReader(stdout)
 
 		outputLine, err := reader.ReadString('\n')
@@ -92,8 +97,19 @@ func work(wg *sync.WaitGroup, template string, lines <-chan string) {
 		}
 		stdout.Close()
 
+		reader = bufio.NewReader(stderr)
+
+		outputLine, err = reader.ReadString('\n')
+		for err == nil {
+			writer.WriteString(fmt.Sprintf("[%s] %s", command, outputLine))
+			outputLine, err = reader.ReadString('\n')
+		}
+		stderr.Close()
+
 		if err := cmd.Wait(); err != nil {
 			writer.WriteString(fmt.Sprintf("[%s] err: %v\n", command, err))
 		}
+
+		writer.WriteString(fmt.Sprintf("[%s] finished\n", command))
 	}
 }
